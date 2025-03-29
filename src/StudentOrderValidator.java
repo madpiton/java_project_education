@@ -4,23 +4,39 @@ public class StudentOrderValidator {
     }
 
     static void checkAll() {
-        StudentOrder so = readStudentOrder(); // читаем студ.заявку и
-        AnswerCityRegister cityAnswer = checkCityRegister(so);// передаем её на проверки
-        AnswerWedding wedAnswer = checkWedding(so);
-        AnswerChildren chilAnswer = checkChildren(so);
-        AnswerStudent studAnswer = checkStudent(so);
 
-        sendMail(so);
+        while (true) {
+            StudentOrder so = readStudentOrder(); // читаем студ.заявку и
+            System.out.println("Start");
+
+            if (so == null) { // если заявка есть,
+                break; // (выход из цикла, если заявки нет)
+            }
+            System.out.println("Finish");
+            AnswerCityRegister cityAnswer = checkCityRegister(so);// передаем её на проверки
+            if (!cityAnswer.success) {
+                continue; // (возврат в начало цикла, если проверка не пройдена)
+            }
+
+            AnswerWedding wedAnswer = checkWedding(so);
+            AnswerChildren chilAnswer = checkChildren(so);
+            AnswerStudent studAnswer = checkStudent(so);
+
+            sendMail(so);
+        }
+        System.out.println("Finish 2");
     }
 
-    static StudentOrder readStudentOrder(){
+
+    static StudentOrder readStudentOrder() {
         StudentOrder so = new StudentOrder(); // создаем новую студ.заявку и возвращаем ее
-        return so;
+        return null;
     }
 
     static AnswerCityRegister checkCityRegister(StudentOrder so) {
         System.out.println("CityRegister is running");
         AnswerCityRegister ans = new AnswerCityRegister();
+        ans.success = false;
         return ans;
     }
 
@@ -39,7 +55,7 @@ public class StudentOrderValidator {
         return new AnswerStudent();
     }
 
-    static void sendMail(StudentOrder so){
+    static void sendMail(StudentOrder so) {
 
     }
 }
