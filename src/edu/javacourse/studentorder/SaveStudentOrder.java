@@ -3,13 +3,13 @@ package edu.javacourse.studentorder;
 import edu.javacourse.studentorder.domain.Adult;
 import edu.javacourse.studentorder.domain.StudentOrder;
 
-public class SafeStudentOrder {
+public class SaveStudentOrder {
     public static void main(String[] args) {
 
-        StudentOrder so = new StudentOrder();
-
-        long ans = saveStudentOrder(so);
-        System.out.println(ans);
+        buildStudentOrder();
+    //    StudentOrder so = new StudentOrder();
+    //    long ans = saveStudentOrder(so);
+    //    System.out.println(ans);
 
     }
 
@@ -25,7 +25,12 @@ public class SafeStudentOrder {
         Adult husband;
         husband = new Adult();
         husband.setGivenName("Андрей");
+        husband.setSurName("Петров");
+        husband.setPassportNumber("123456");
         so.setHusband(husband);
+
+        String ans = husband.getPersonString();
+        System.out.println(ans);
 
         return so;
     }
