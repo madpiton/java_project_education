@@ -9,6 +9,10 @@ public class Person {
     private LocalDate dateOfBirth;
     private Address address;
 
+    public Person(){    //конструктор
+
+    }
+
 
 
     public String getSurName() {
