@@ -15,7 +15,7 @@ public class StudentOrderValidator {
     private StudentValidator studenVal;
     private MailSender mailSender;
 
-    public StudentOrderValidator(){
+    public StudentOrderValidator() {
         cityRegisterVal = new CityRegisterValidator();
         weddingVal = new WeddingValidator();
         childernVal = new ChildernValidator();
@@ -30,42 +30,32 @@ public class StudentOrderValidator {
 
     public void checkAll() {
 
-        while (true) {
-            StudentOrder so = readStudentOrder(); // читаем студ.заявку и
-            System.out.println("Start");
+        StudentOrder[] soArray = readStudentOrders(); // читаем студ.заявку и
 
-            if (so == null) { // если заявка есть,
-                break; // (выход из цикла, если заявки нет)
-            }
-            System.out.println("Проверяем регистрацию в городской системе");
-            AnswerCityRegister cityAnswer = checkCityRegister(so);// передаем её на проверки
-            if (!cityAnswer.success) {
-                //continue; // (возврат в начало цикла, если проверка не пройдена)
-                break;
-            }
-
-            System.out.println("Проверяем статус семейного положения");
-            AnswerWedding weddingAnswer = checkWedding(so);
-            if (!weddingAnswer.success) {
-                break;
-            }
-            AnswerChildren childAnswer = checkChildren(so);
-            if (!childAnswer.success){
-                break;
-            }
-            AnswerStudent studAnswer = checkStudent(so);
-            if (!studAnswer.success){
-                break;
-            }
-
-            sendMail(so);
+//        for (int c = 0; c < soArray.length; c++) {
+//            System.out.println();
+//            checkOneOrder(soArray[c]);
+//        }
+        for (StudentOrder so : soArray){ // цикл в котором в качестве счеткика используются элементы массива
+            System.out.println();
+            checkOneOrder(so);
         }
     }
 
+    public StudentOrder[] readStudentOrders() {
+        StudentOrder[] soArray = new StudentOrder[3];
+        for (int c = 0; c < soArray.length; c++) {
+            soArray[c] = SaveStudentOrder.buildStudentOrder(c);
+        }
+        return soArray;
+    }
 
-    public StudentOrder readStudentOrder() {
-        StudentOrder so = new StudentOrder(); // создаем новую студ.заявку и возвращаем ее
-        return so;
+    public void checkOneOrder(StudentOrder so) {
+        AnswerCityRegister cityAnswer = checkCityRegister(so);// передаем её на проверки
+        AnswerWedding weddingAnswer = checkWedding(so);
+        AnswerChildren childAnswer = checkChildren(so);
+        AnswerStudent studAnswer = checkStudent(so);
+        sendMail(so);
     }
 
     public AnswerCityRegister checkCityRegister(StudentOrder so) {
